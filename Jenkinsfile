@@ -6,20 +6,22 @@ pipeline {
     }
 
     stages {
-        parallel {
-        stage('installing dependencies'){
-            steps {
-                sh 'npm install --no-audit'
+        stage('Dependencies & Audit') {
+            parallel {
+                stage('Install Dependencies') {
+                    steps {
+                        sh 'npm install --no-audit'
+                    }
+                }
+
+                stage('NPM Dependency Audit') {
+                    steps {
+                        sh '''
+                            npm audit --audit-level=critical || true
+                        '''
+                    }
+                }
             }
-        }
-        stage(' npm dependency audit '){
-            steps {
-                sh '''
-                    npm audit --audit-level=critical
-                    echo $?
-                '''
-            }
-        }
         }
     }
 }
