@@ -6,6 +6,7 @@ pipeline {
     }
 
     stages {
+        parallel {
         stage('installing dependencies'){
             steps {
                 sh 'npm install --no-audit'
@@ -18,6 +19,7 @@ pipeline {
                     echo $?
                 '''
             }
+        }
         }
     }
 }
